@@ -1,0 +1,514 @@
+body {
+  background: linear-gradient(180deg, #02191D, #07373F, #02191D);
+  color: white;
+  font-family: Arial, sans-serif;
+  /* display: flex; */
+  justify-content: center;
+  /* align-items: center;
+  min-height: 100vh; */
+  margin: 0;
+}
+
+.container {
+  background: linear-gradient(180deg, #02191D, #07373F, #02191D);
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid #0E464F;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  margin: 0 auto;
+  width: 700px;
+}
+
+.ticket-options {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  background: #07373F;
+  color: white;
+  margin: 10px;
+  cursor: pointer;
+  border: 1px solid #0E464F;
+  border-radius: 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 110px;
+  margin: 0;
+  /* contain: content; */
+  white-space: normal;
+  gap: 0;
+  word-wrap: break-word;
+}
+
+
+button.selected {
+  background: #12464E;
+}
+
+input,
+select {
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+}
+
+.ticket img {
+  width: 100px;
+  border-radius: 50%;
+}
+
+.next-button{
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  padding: 15px;
+  background-color: #24A0B5;
+}
+
+.cancel-button{
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  padding: 15px;
+}
+
+.ticket-type{
+  font-weight: 600;
+  font-size: 24px;
+  margin-top: 5px;
+}
+.ticket-available{
+  font-weight: 100;
+  font-size: 14px;
+  margin-top: -5px;
+}
+
+.ticket-label{
+  font-weight: 400;
+  font-size: 16px;
+  margin-top: 3px;
+}
+
+.child-container {
+  background: linear-gradient(180deg, #02191D, #07373F, #02191D);
+  border: 1px solid #0E464F;
+  padding: 10px;
+  border-radius: 20px;
+  width: 95%;
+  text-align: center;
+}
+
+.description-container {
+  background: linear-gradient(180deg, #02191D, #07373F, #02191D);
+  border: 1px solid #0E464F;
+  padding: 10px;
+  border-radius: 20px;
+  width: 93%;
+  text-align: center;
+  margin-bottom: 50px;
+  margin-top: 5px;
+  height: 200px;
+  margin-left: 1%;
+}
+
+.button-container{
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #0E464F;
+  border-radius: 20px;
+  gap: 20px;
+  padding: 10px;
+  width: 90%;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-select-container {
+  text-align: left;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.custom-select-container label{
+  padding-left: 10px;
+}
+
+.custom-select {
+  border: 1px solid #07373F;
+  border-radius: 10px;
+  background-color: #052930;
+  color: white;
+  width: 95%;
+  height: 48px;
+}
+
+.bottom-button {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  gap: 20px;
+}
+
+
+
+/* Container that holds the entire Attendee Details section */
+.attendee-container {
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: "Poppins", sans-serif; /* or your preferred font */
+  color: #fff; /* Text color on a dark background */
+}
+
+/* Header (title + step indicator) */
+.attendee-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.attendee-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.attendee-header p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Progress bar container is typically placed in the component, 
+   but you can style it globally if needed */
+.progress-bar {
+  margin-bottom: 2rem;
+}
+
+/* The main form container with a dark or gradient background */
+.form-container {
+  background: linear-gradient(180deg, #02191D, #07373F, #02191D);
+  border: 1px solid #0E464F;
+  border-radius: 15px;
+  padding: 2.5rem;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+/* Labels for inputs */
+.form-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  text-align: left;
+  
+}
+
+/* Inputs and textarea styling */
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #ffffff; /* black text inside the fields */
+  outline: none;
+  background-color: #052930;
+  border-radius: 10px;
+  
+}
+
+/* Change border color on focus */
+.form-container input:focus,
+.form-container textarea:focus {
+  border-color: #0070f3;
+}
+
+/* Button group for Back and Next/Submit */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+/* Buttons */
+.form-container button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+/* Back Button */
+/* #back-btn {
+  background-color: #ccc;
+  color: #333;
+} */
+
+#back-btn:hover {
+  background-color: #bbb;
+}
+
+/* Submit / Next Button */
+/* #submit-btn {
+  background-color: #0070f3;
+  color: #fff;
+} */
+
+#submit-btn:hover {
+  background-color: #005bb5;
+}
+
+.avatar-container{
+  height: 1000px;
+}
+
+
+
+
+/* Container for the image upload area */
+.image-upload-container {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Dropzone area */
+.image-upload-dropzone {
+  position: relative;
+  border: 2px dashed #0070f3;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+/* Change border color on hover */
+.image-upload-dropzone:hover {
+  border-color: #005bb5;
+}
+
+/* Text inside dropzone */
+.dropzone-text {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+/* Browse button styling */
+.browse-button {
+  display: inline-block;
+  background-color: #0070f3;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.browse-button:hover {
+  background-color: #005bb5;
+}
+
+/* The uploaded image preview */
+.image-upload-dropzone img {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+
+/* Container for the confirmation page */
+.ticket-confirmation-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0b2429 0%, #0f2f3a 100%);
+  color: #fff;
+  text-align: center;
+  padding: 2rem 1rem;
+  font-family: "Poppins", sans-serif; /* or your preferred font */
+  box-sizing: border-box;
+}
+
+.ticket-confirmation-container h1 {
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.confirmation-subtext {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.confirmation-subtext span {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* The ticket card itself */
+.ticket-card {
+  background: #1a2b33;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto 2rem auto;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  
+}
+
+/* Ticket header with event name & date/time */
+.ticket-card__header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.ticket-card__header p {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 1rem;
+  color: #88c0d0;
+}
+
+/* Avatar in the center or top */
+.ticket-card__avatar {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.ticket-card__avatar img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #88c0d0;
+}
+
+/* Ticket details */
+.ticket-card__details {
+  text-align: left;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.ticket-card__details p {
+  margin: 0.25rem 0;
+  line-height: 1.4;
+}
+
+.ticket-card__details strong {
+  color: #fff;
+  margin-right: 0.25rem;
+}
+
+/* Barcode area */
+.ticket-card__barcode {
+  margin: 1rem auto 0 auto;
+  text-align: center;
+}
+
+/* Buttons below the ticket */
+.ticket-confirmation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.ticket-confirmation-buttons button {
+  background-color: #0070f3;
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.ticket-confirmation-buttons button:hover {
+  background-color: #005bb5;
+}
+
+
+
+/* Vertical ticket layout */
+.ticket {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Make child sections fill the width */
+  font-family: Roboto, sans-serif;
+  margin: 16px;
+  border: 1px solid #0070f3;
+  position: relative;
+  width: 80%;
+  padding-right: 15%;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Top notch on the ticket */
+.ticket::before {
+  content: "";
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(180deg, #02191D, #07373F, #02191D);
+  border: 1px solid #E0E0E0;
+  /* Remove left/right borders to create a notch effect */
+  border-left-color: transparent;
+  border-right-color: transparent;
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+  border-radius: 50%;
+}
+
+/* Bottom notch on the ticket */
+.ticket::after {
+  content: "";
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(180deg, #02191D, #07373F, #02191D);
+  border: 1px solid #E0E0E0;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 50%;
+}
+
+/* Top Section: for example, the avatar or header info */
+.ticket--start {
+  padding: 16px;
+  border-bottom: 1px dashed #E0E0E0;
+  text-align: center;
+}
+
+/* Center Section: Main ticket details */
+.ticket--center {
+  padding: 24px;
+  text-align: center;
+  width: 100%;
+
+}
+
+/* Bottom Section: for example, barcode & logo */
+.ticket--end {
+  padding: 24px;
+  background-color: #4872b0;
+  text-align: center;
+}
