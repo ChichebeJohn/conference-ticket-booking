@@ -12,47 +12,48 @@ export default function TicketConfirmation() {
   const router = useRouter();
   const ticketRef = useRef(null);
 
-  // Generate purchase date/time on mount
+  // Set purchase date/time on mount
   const [purchaseDate, setPurchaseDate] = useState("");
   useEffect(() => {
-    const now = new Date();
-    setPurchaseDate(now.toLocaleString());
+    setPurchaseDate(new Date().toLocaleString());
   }, []);
 
   // Download the ticket as an image
   const handleDownload = async () => {
-    if (ticketRef.current) {
-      const canvas = await html2canvas(ticketRef.current);
-      const dataUrl = canvas.toDataURL("image/png");
-      const link = document.createElement("a");
-      link.href = dataUrl;
-      link.download = "ticket.png";
-      link.click();
+    try {
+      if (ticketRef.current) {
+        const canvas = await html2canvas(ticketRef.current);
+        const dataUrl = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = "ticket.png";
+        link.click();
+      }
+    } catch (error) {
+      console.error("Error downloading ticket:", error);
+      // Optionally provide user feedback here
     }
   };
 
-  // Retrieve data from the booking context
+  // Retrieve booking data
   const attendee = bookingData.attendee || {};
   const name = attendee.name || "Anonymous";
   const email = attendee.email || "no-email@example.com";
   const avatar = attendee.image || "/sample-avatar.png";
   const specialRequest = attendee.specialRequest || "None";
 
-  // Ticket details from context (if available)
   const ticket = bookingData.ticket || {};
   const ticketType = ticket.label || "Regular Access";
 
-  // Example event info (replace with your real data)
+  // Example event info
   const eventName = "Techember Fest ’25";
   const eventDate = "March 15, 2025";
   const eventTime = "7:00 PM";
   const eventLocation = "Lagos, Nigeria";
 
   return (
-    <div className="container">
     <div className="ticket-confirmation-container">
       <ProgressBar currentStep={3} totalSteps={3} />
-
       <h1>Your Ticket is Booked!</h1>
       <p className="confirmation-subtext">
         Check your email for a copy or you can <span>download</span> it below.
@@ -62,11 +63,10 @@ export default function TicketConfirmation() {
       <div className="ticket" ref={ticketRef}>
         {/* Top Section: Attendee Avatar */}
         <div className="ticket--start">
-          <div style={{border:"5px solid #0E464F", borderRadius:"5px", width:"140px", height:"140px", marginLeft:"45%", marginTop:"10%"}}>
-        <img src={avatar} alt="Attendee Avatar" style={{ width: "140px", height: "140px", borderRadius: "0" }} />
+          <div className="avatar-wrapper">
+            <img src={avatar} alt="Attendee Avatar" />
+          </div>
         </div>
-
-       
 
         {/* Center Section: Ticket & Event Details */}
         <div className="ticket--center">
@@ -89,25 +89,33 @@ export default function TicketConfirmation() {
             </p>
           )}
         </div>
-        </div>
 
-        {/* Bottom Section: Barcode & Logo */}
+        {/* Bottom Section: Barcode & Optional Logo */}
         <div className="ticket--end">
-          <div style={{ marginBottom: "1rem" }}>
-            <Barcode value={email} />
+          <div className="barcode-wrapper">
+            <Barcode value={email} width={0.8} height={50} margin={0} fontSize={14} />
           </div>
-          <div>
-            {/* <img src="https://qidoon.com/assets/img/logo.svg" alt="Company Logo" style={{ maxWidth: "120px" }} /> */}
-          </div>
+          
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="bottom-button" style={{ marginTop: "1.5rem", display: "flex", justifyContent: "center", gap: "1rem" }}>
-        <button onClick={handleDownload} className="cancel-button">Download Ticket</button>
-        <button onClick={() => router.push("/tickets")} className="next-button">Book Another Ticket</button>
+      <div className="bottom-button">
+        <button
+          onClick={handleDownload}
+          className="cancel-button"
+          aria-label="Download Ticket as Image"
+        >
+          Download Ticket
+        </button>
+        <button
+          onClick={() => router.push("/tickets")}
+          className="next-button"
+          aria-label="Book Another Ticket"
+        >
+          Book Another Ticket
+        </button>
       </div>
-    </div>
     </div>
   );
 }
