@@ -283,7 +283,7 @@ select {
   border-radius: 6.4px;
 }
 
-.ticket-container{
+.ticket-container {
   background: linear-gradient(180deg, #02191D, #07373F, #02191D);
   padding: 20px;
   border-radius: 16px;
@@ -294,26 +294,22 @@ select {
   align-self: center;
   margin: 0 auto;
   width: 50%;
-  justify-self: center;
   margin-bottom: 20px;
-
 }
+
 .ticket {
   position: relative;
   width: 100%;
   min-height: 560px; /* Adjust based on your image aspect ratio */
   margin: 0 auto;
   padding: 2rem;
-  background: 
-    url('/bg.png') no-repeat center center, 
-  ;
+  background: url('/bg.png') no-repeat center center;
   background-size: contain;
   background-blend-mode: multiply;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border: none;
-  
 }
 
 /* Remove pseudo-elements since they'll be part of the background image */
@@ -321,8 +317,8 @@ select {
 .ticket::after {
   content: none;
 }
-.ticket-details{
-  /* background: linear-gradient(180deg, #02191D, #07373F, #02191D); */
+
+.ticket-details {
   padding: 20px;
   border-radius: 16px;
   text-align: center;
@@ -332,28 +328,13 @@ select {
   align-self: center;
   margin: 0 auto;
   width: 40%;
-  justify-self: center;
   margin-bottom: 20px;
 }
+
 /* Adjust content positioning */
 .avatar-wrapper {
   margin-top: 3rem; /* Position avatar relative to background design */
   z-index: 1;
-}
-
-.barcode-wrapper {
-  margin-bottom: 3rem; /* Position barcode relative to background design */
-  z-index: 1;
-}
-
-
-
-
-
-
-
-
-.avatar-wrapper {
   margin: 0 auto;
   width: 112px;
   height: 112px;
@@ -389,6 +370,7 @@ select {
 
 .barcode-wrapper {
   margin-bottom: 0.8rem;
+  z-index: 1;
 }
 
 .bottom-button {
@@ -396,6 +378,60 @@ select {
   display: flex;
   justify-content: center;
   gap: 0.8rem;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .ticket-container {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .ticket {
+    padding: 1.5rem;
+    /* Optionally, adjust min-height or let content dictate the height */
+    min-height: auto;
+  }
+  
+  .ticket-details {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .bottom-button {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ticket-container {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .ticket-details {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .avatar-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .avatar-wrapper img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .ticket--center h2 {
+    font-size: 1rem;
+  }
+  
+  .ticket--center p {
+    font-size: 0.75rem;
+  }
 }
 
 
