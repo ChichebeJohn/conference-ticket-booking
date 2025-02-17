@@ -12,29 +12,27 @@ export default function TicketConfirmation() {
   const router = useRouter();
   const ticketRef = useRef(null);
 
-  // Set purchase date/time on mount
   const [purchaseDate, setPurchaseDate] = useState("");
   const [storedBookingData, setStoredBookingData] = useState(null);
 
+  // 1. On mount: Load stored data from localStorage
   useEffect(() => {
-    // Check if new bookingData is provided (non-empty object)
+    const storedData = localStorage.getItem("ticketBookingData");
+    if (storedData) {
+      setStoredBookingData(JSON.parse(storedData));
+    }
+    setPurchaseDate(new Date().toLocaleString());
+  }, []);
+
+  // 2. When new bookingData arrives (and is non-empty), update localStorage and state
+  useEffect(() => {
     if (bookingData && Object.keys(bookingData).length > 0) {
-      // Update state and localStorage with the new bookingData
       setStoredBookingData(bookingData);
       localStorage.setItem("ticketBookingData", JSON.stringify(bookingData));
-    } else {
-      // If bookingData is empty, try to load saved data from localStorage
-      const storedData = localStorage.getItem("ticketBookingData");
-      if (storedData) {
-        setStoredBookingData(JSON.parse(storedData));
-      }
     }
-
-    // Update the purchase date each time bookingData changes (or on mount)
-    setPurchaseDate(new Date().toLocaleString());
   }, [bookingData]);
 
-  // Download the ticket as an image
+  // Download ticket as image
   const handleDownload = async () => {
     try {
       if (ticketRef.current) {
@@ -50,7 +48,7 @@ export default function TicketConfirmation() {
     }
   };
 
-  // Retrieve booking data from storedBookingData (fallback to an empty object)
+  // Use storedBookingData for rendering (fallback to empty object)
   const attendee = storedBookingData?.attendee || {};
   const name = attendee.name || "Anonymous";
   const email = attendee.email || "no-email@example.com";
@@ -60,7 +58,7 @@ export default function TicketConfirmation() {
   const ticket = storedBookingData?.ticket || {};
   const ticketType = ticket.label || "Regular Access";
 
-  // Example event info
+  // Event Info
   const eventName = "Techember Fest ’25";
   const eventDate = "📅 March 15, 2025 | ";
   const eventTime = "7:00 PM";
@@ -117,67 +115,64 @@ export default function TicketConfirmation() {
               padding: "10px",
             }}
           >
-          <div
-  style={{
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    // padding: "5px",
-    overflow: "hidden",
-  }}
->
-  <div
-    style={{
-      flex: 1,
-      minWidth: 0, // allows the div to shrink if necessary
-      borderRight: "1px solid #12464E",
-      borderBottom: "1px solid #12464E",
-    }}
-  >
-    <p
-      style={{
-        margin: 0,
-        overflow: "hidden",
-        whiteSpace: "nowrap", // remove or change to "normal" if you want wrapping
-        textOverflow: "ellipsis", // shows an ellipsis when text overflows
-      }}
-    >
-      {name}
-    </p>
-  </div>
-  <div
-    style={{
-      flex: 1,
-      minWidth: 0,
-      borderBottom: "1px solid #12464E",
-    }}
-  >
-    <p
-      style={{
-        margin: 0,
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
-      }}
-    >
-      {email}
-    </p>
-  </div>
-</div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  borderRight: "1px solid #12464E",
+                  borderBottom: "1px solid #12464E",
+                }}
+              >
+                <p
+                  style={{
+                    margin: 0,
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {name}
+                </p>
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  borderBottom: "1px solid #12464E",
+                }}
+              >
+                <p
+                  style={{
+                    margin: 0,
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {email}
+                </p>
+              </div>
+            </div>
 
             <p>
               Ticket Type:
               <br />
               <strong>{ticketType}</strong>
             </p>
-<div style={{borderTop:"1px solid #12464E"}}>
-            {specialRequest && specialRequest !== "None" && (
-              <p>
-               <span >Special Request:</span> {specialRequest}
-
-              </p>
-              
-            )}
+            <div style={{ borderTop: "1px solid #12464E" }}>
+              {specialRequest && specialRequest !== "None" && (
+                <p>
+                  <span>Special Request:</span> {specialRequest}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -187,7 +182,7 @@ export default function TicketConfirmation() {
           <div className="barcode-wrapper">
             <Barcode
               value={email}
-              width={0.8}
+              width={0.6}
               height={50}
               margin={0}
               fontSize={14}

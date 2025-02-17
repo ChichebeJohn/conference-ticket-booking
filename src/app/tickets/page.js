@@ -1,119 +1,220 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useBooking } from "../context/BookingContext";
-import ProgressBar from "../../components/ProgressBar";
+import { useBooking } from "../../context/BookingContext";
+import ProgressBar from "../../../components/ProgressBar";
+import Barcode from "react-barcode";
+import html2canvas from "html2canvas";
+import "../../globals.css";
 
-export default function TicketSelection() {
+export default function TicketConfirmation() {
+  const { bookingData } = useBooking();
   const router = useRouter();
-  const { updateBookingData } = useBooking();
-  const [selectedTicket, setSelectedTicket] = useState(null);
-  const [quantity, setQuantity] = useState(1);
+  const ticketRef = useRef(null);
 
-  const tickets = [
-    { type: "Free", price: 0, label: "REGULAR ACCESS", available: "20/52" },
-    { type: "$150", price: 150, label: "VIP ACCESS", available: "20/52" },
-    { type: "$150", price: 150, label: "VVIP ACCESS", available: "20/52" },
-  ];
+  // State for booking data and purchase date
+  const [storedBookingData, setStoredBookingData] = useState(null);
+  const [purchaseDate, setPurchaseDate] = useState("");
 
-  // Load persisted state from localStorage on mount
+  // 1. On mount: Load persisted data from localStorage and set the purchase date
   useEffect(() => {
-    const storedTicket = localStorage.getItem("selectedTicket");
-    const storedQuantity = localStorage.getItem("ticketQuantity");
-    if (storedTicket !== null) {
-      setSelectedTicket(JSON.parse(storedTicket));
+    const storedData = localStorage.getItem("ticketBookingData");
+    if (storedData) {
+      setStoredBookingData(JSON.parse(storedData));
     }
-    if (storedQuantity !== null) {
-      setQuantity(JSON.parse(storedQuantity));
-    }
+    setPurchaseDate(new Date().toLocaleString());
   }, []);
 
-  // Save state changes to localStorage
+  // 2. When new bookingData arrives (non-empty), update state
   useEffect(() => {
-    localStorage.setItem("selectedTicket", JSON.stringify(selectedTicket));
-    localStorage.setItem("ticketQuantity", JSON.stringify(quantity));
-  }, [selectedTicket, quantity]);
+    if (bookingData && Object.keys(bookingData).length > 0) {
+      setStoredBookingData(bookingData);
+    }
+  }, [bookingData]);
 
-  const handleNext = () => {
-    if (selectedTicket === null) return;
-    updateBookingData({
-      ticket: tickets[selectedTicket],
-      quantity: quantity,
-    });
-    router.push("/tickets/details");
+  // 3. Persist state changes to localStorage
+  useEffect(() => {
+    if (storedBookingData !== null) {
+      localStorage.setItem("ticketBookingData", JSON.stringify(storedBookingData));
+    }
+  }, [storedBookingData]);
+
+  // Download the ticket as an image
+  const handleDownload = async () => {
+    try {
+      if (ticketRef.current) {
+        const canvas = await html2canvas(ticketRef.current);
+        const dataUrl = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = "ticket.png";
+        link.click();
+      }
+    } catch (error) {
+      console.error("Error downloading ticket:", error);
+    }
   };
 
-  return (
-    <div className="container">
-      <div className="header">
-        <h3>Ticket Selection</h3>
-        <p>Step 1/3</p>
-      </div>
-      <ProgressBar currentStep={1} totalSteps={3} />
+  // Retrieve booking info (with fallbacks)
+  const attendee = storedBookingData?.attendee || {};
+  const name = attendee.name || "Anonymous";
+  const email = attendee.email || "no-email@example.com";
+  const avatar = attendee.image || "/sample-avatar.png";
+  const specialRequest = attendee.specialRequest || "None";
 
-      <div className="child-container">
-        <div className="description-container">
-          <h1>Techember Fest ’25</h1>
+  const ticket = storedBookingData?.ticket || {};
+  const ticketType = ticket.label || "Regular Access";
+
+  // Example event info
+  const eventName = "Techember Fest ’25";
+  const eventDate = "📅 March 15, 2025 | ";
+  const eventTime = "7:00 PM";
+  const eventLocation = "📍 04 Rumens road, Ikoyi, Lagos";
+
+  return (
+    <div className="ticket-container">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "5px",
+          padding: "10px",
+          alignItems: "center",
+        }}
+      >
+        <ProgressBar currentStep={3} totalSteps={3} />
+        <p style={{ width: "100px" }}>Step 1/3</p>
+      </div>
+      <h1>Your Ticket is Booked!</h1>
+      <p className="confirmation-subtext">
+        Check your email for a copy or you can <span>download</span> it below.
+      </p>
+
+      {/* Ticket structure */}
+      <div className="ticket" ref={ticketRef}>
+        <div className="ticket-details">
+          <h2>{eventName}</h2>
+          <p>{eventLocation}</p>
           <p>
-            Join us for an unforgettable experience at [Event Name]! Secure your spot
-            now.
+            {eventDate} &mdash; {eventTime}
           </p>
-          <p>
-            📍 [Event Location] || March 15, 2025 | 7:00 PM
-          </p>
-        </div>
-        <p>Select Ticket Type:</p>
-        <div className="ticket-options">
-          <div className="button-container">
-            {tickets.map((ticket, index) => (
-              <button
-                key={index}
-                className={`ticket-button ${selectedTicket === index ? "selected" : ""}`}
-                onClick={() => setSelectedTicket(index)}
-                aria-pressed={selectedTicket === index}
-                aria-label={`Select ${ticket.label} ticket costing ${ticket.type}`}
+
+          {/* Attendee Avatar */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "20px",
+            }}
+          >
+            <div className="avatar-wrapper">
+              <img src={avatar} alt="Attendee Avatar" />
+            </div>
+          </div>
+
+          {/* Ticket & Event Details */}
+          <div
+            style={{
+              textAlign: "center",
+              marginBottom: "20px",
+              border: "1px solid #12464E",
+              borderRadius: "10px",
+              padding: "10px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  borderRight: "1px solid #12464E",
+                  borderBottom: "1px solid #12464E",
+                }}
               >
-                <p className="ticket-type">{ticket.type}</p>
-                <p className="ticket-label">{ticket.label}</p>
-                <p className="ticket-available">{ticket.available}</p>
-              </button>
-            ))}
+                <p
+                  style={{
+                    margin: 0,
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {name}
+                </p>
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  borderBottom: "1px solid #12464E",
+                }}
+              >
+                <p
+                  style={{
+                    margin: 0,
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {email}
+                </p>
+              </div>
+            </div>
+
+            <p>
+              Ticket Type:
+              <br />
+              <strong>{ticketType}</strong>
+            </p>
+            <div style={{ borderTop: "1px solid #12464E" }}>
+              {specialRequest && specialRequest !== "None" && (
+                <p>
+                  <span>Special Request:</span> {specialRequest}
+                </p>
+              )}
+            </div>
           </div>
         </div>
-        <div className="custom-select-container">
-          <label htmlFor="ticket-quantity">Number of Tickets:</label>
-          <select
-            id="ticket-quantity"
-            className="custom-select"
-            value={quantity}
-            onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
-          >
-            {[...Array(5).keys()].map((num) => (
-              <option key={num} value={num + 1}>
-                {num + 1}
-              </option>
-            ))}
-          </select>
+
+        {/* Barcode */}
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <div className="barcode-wrapper">
+            <Barcode value={email} width={0.8} height={50} margin={0} fontSize={14} />
+          </div>
         </div>
-        <div className="bottom-button">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="cancel-button"
-            aria-label="Cancel Ticket Selection"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            disabled={selectedTicket === null}
-            onClick={handleNext}
-            className="next-button"
-            aria-label="Proceed to Attendee Details"
-          >
-            Next
-          </button>
-        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div
+        className="bottom-button"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "20px",
+        }}
+      >
+        <button
+          onClick={handleDownload}
+          className="cancel-button"
+          aria-label="Download Ticket as Image"
+        >
+          Download Ticket
+        </button>
+        <button
+          onClick={() => router.push("/tickets")}
+          className="next-button"
+          aria-label="Book Another Ticket"
+        >
+          Book Another Ticket
+        </button>
       </div>
     </div>
   );
