@@ -2,6 +2,7 @@ import { BookingProvider } from "./context/BookingContext";
 import "./globals.css";
 import Header from "@/components/Header";
 
+
 export async function generateMetadata() {
   return {
     title: "Ticket Booking",
